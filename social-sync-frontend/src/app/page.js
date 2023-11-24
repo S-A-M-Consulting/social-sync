@@ -1,6 +1,24 @@
+require("dotenv").config();
+
 import Image from 'next/image'
 
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = {
+  apiKey: process.env.FB_apiKey,
+  authDomain: process.env.FB_authDomain,
+  projectId: process.env.FB_projectId,
+  storageBucket: process.env.FB_storageBucket,
+  messagingSenderId: process.env.FB_messagingSenderId,
+  appId: process.env.FB_appId,
+  measurementId: process.env.FB_measurementId
+};
+
 export default function Home() {
+  const app = initializeApp(firebaseConfig);
+  //const analytics = getAnalytics(app);
+  console.log(app);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
