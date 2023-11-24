@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { PrismaClient } from '@prisma/client'
+import Calendar from 'react-calendar';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +22,7 @@ export default function Home({blogs}) {
         <div className={styles.description}> 
           <Image
             src="https://http.cat/100"
-            alt="Vercel Logo"
+            alt="Cat"
             className={styles.vercelLogo}
             width={300}
             height={250}
@@ -37,6 +38,7 @@ export default function Home({blogs}) {
             </div>
           ))}
         </div> 
+        <Calendar/>
       </main>
     </>
   )
