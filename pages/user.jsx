@@ -1,4 +1,4 @@
-'use client';
+//'use client';
 
 import { useUser } from '@auth0/nextjs-auth0/client';
 
@@ -7,13 +7,13 @@ export default function ProfileClient() {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
-
+  console.log(user);
   return (
     user && (
       <div>
         <img src={user.picture} alt={user.name} />
         <h2>{user.name}</h2>
-        <p>{user.email}</p>
+        <h2>{user.nickname}</h2>
       </div>
     )
   );
