@@ -4,10 +4,12 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { PrismaClient } from '@prisma/client'
 import Calendar from 'react-calendar';
+import { useUser } from '@auth0/nextjs-auth0/client'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({blogs}) {
+  const { user, error, isLoading } = useUser();
   return (
     <>
       <Head>
@@ -38,18 +40,16 @@ export default function Home({blogs}) {
             </div>
           ))}
         </div> 
-        <a href="/api/auth/login">Login</a>
-        <a href="/api/auth/logout">Logout</a>
+        {!user ? (<a href="/api/auth/login">Login</a>) : (<a href="/api/auth/logout"> Logged in as {user.nickname} | Logout</a>)}
       </main>
     </>
   )
 }
 
 export async function getStaticProps() {
-  const prisma = new PrismaClient()
-  const blogs = await prisma.blog.findMany()
-
   return {
-    props : { blogs }
+    props: {
+      blogs: []
+    }
   }
 }
