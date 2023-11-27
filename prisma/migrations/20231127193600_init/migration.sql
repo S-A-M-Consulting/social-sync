@@ -50,6 +50,19 @@ CREATE TABLE "EventAvailability" (
     CONSTRAINT "EventAvailability_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "AvailabilityTemplate" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "dayOfWeek" TEXT NOT NULL,
+    "morning" BOOLEAN NOT NULL,
+    "afternoon" BOOLEAN NOT NULL,
+    "evening" BOOLEAN NOT NULL,
+    "lateNight" BOOLEAN NOT NULL,
+
+    CONSTRAINT "AvailabilityTemplate_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_auth0Id_key" ON "User"("auth0Id");
 
@@ -70,3 +83,6 @@ ALTER TABLE "EventAvailability" ADD CONSTRAINT "EventAvailability_eventId_fkey" 
 
 -- AddForeignKey
 ALTER TABLE "EventAvailability" ADD CONSTRAINT "EventAvailability_availabilityId_fkey" FOREIGN KEY ("availabilityId") REFERENCES "Availability"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AvailabilityTemplate" ADD CONSTRAINT "AvailabilityTemplate_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

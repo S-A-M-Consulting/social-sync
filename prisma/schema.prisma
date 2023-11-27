@@ -20,6 +20,7 @@ model User {
   picture      String?
   availabilities Availability[]
   eventGroups  EventGroup[]
+  availabilityTemplates AvailabilityTemplate[] 
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
 }
@@ -56,4 +57,15 @@ model EventAvailability {
   availabilityId  Int
   event           Event        @relation(fields: [eventId], references: [id])
   availability    Availability @relation(fields: [availabilityId], references: [id])
+}
+
+model AvailabilityTemplate {
+  id        Int                @id @default(autoincrement())
+  userId    Int
+  user      User               @relation(fields: [userId], references: [id])
+  dayOfWeek String 
+  morning   Boolean
+  afternoon Boolean
+  evening   Boolean
+  lateNight Boolean
 }
