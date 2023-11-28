@@ -1,7 +1,7 @@
 import React, { use, useState } from 'react';
 import axios from 'axios';
 import { Typography, Slider, FormGroup, FormControlLabel, Checkbox, TableCell, Table, TableHead, TableRow, TableBody, Button} from '@mui/material';
-
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 
 /**
@@ -13,6 +13,7 @@ import { Typography, Slider, FormGroup, FormControlLabel, Checkbox, TableCell, T
 
 export default function Availability(props) {
   //const [sliderValue, setSliderValue] = useState(0);
+  
   const generateTimeslots = () => {
     const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
     const times = ["morning", "afternoon", "evening", "lateNight"];
@@ -36,7 +37,7 @@ export default function Availability(props) {
 
 function AvailabilityTable({ table, setCheckboxState}) {
   const rows = Object.keys(table);
-  
+  const {user} = useUser();
   return (
     <div>
     <Table>
@@ -60,7 +61,7 @@ function AvailabilityTable({ table, setCheckboxState}) {
         </TableRow>))}
       </TableBody>
     </Table>
-    <Button onClick={() => handleSubmit(table)}>Submit</Button>
+    <Button onClick={() => handleSubmit(table, Number(sessionStorage.getItem('userId')))}>Submit</Button>
     </div>
   );
 }
@@ -68,10 +69,11 @@ function AvailabilityTable({ table, setCheckboxState}) {
 // onClick={() => handleSubmit(recurringSchedule)}
 // {monday: {morning: true, afternoon: true, evening: false, lateNight: false}, tuesday: {morning: true, afternoon: true, evening: false, lateNight: false}, wednesday: {morning: true, afternoon: true, evening: false, lateNight: false}, thursday: {morning: true, afternoon: true, evening: false, lateNight: false}, friday: {morning: true, afternoon: true, evening: false, lateNight: false}, saturday: {morning: true, afternoon: true, evening: false, lateNight: false}, sunday: {morning: true, afternoon: true, evening: false, lateNight: false}
 
-const handleSubmit = async (recurringSchedule, userId = 3) => {
+const handleSubmit = async (recurringSchedule, userId) => {
   const data = {recurringSchedule, userId};
   console.log(data);
-  const addAvailabilityToDataBase = await axios.post('/api/createRecurringTemplate', {data})
+  const addAvailabilityToDataBase = await axios.post('/api/createRecurringTemplate', {data});
+  console.log(addAvailabilityToDataBase);
 }
 
 

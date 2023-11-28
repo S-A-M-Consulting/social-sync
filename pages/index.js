@@ -1,11 +1,8 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import { PrismaClient } from '@prisma/client'
-import Calendar from 'react-calendar';
-import { useUser } from '@auth0/nextjs-auth0/client'
-import getUserIdFromSub from '@/utils/userIdFromSub'
+import Head from 'next/head';
+import Image from 'next/image';
+import { Inter } from 'next/font/google';
+import styles from '@/styles/Home.module.css';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { use, useEffect } from 'react';
 
 

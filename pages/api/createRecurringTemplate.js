@@ -1,4 +1,3 @@
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -10,8 +9,9 @@ export default async function handler(req, res) {
   const data = req.body.data;
   const availabilities = data.recurringSchedule;
   const userId = data.userId;
-  
-  console.log("HERE:", data)
+  // console.log(data.userId)
+  // console.log("HERE:", data)
+  console.log("availabilities:", Object.entries(availabilities))
   try {
     // Start a transaction to add all recurring templates
     const result = await prisma.$transaction(
