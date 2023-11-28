@@ -11,14 +11,14 @@ import { use, useEffect } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({blogs, userId}) {
+export default function Home({blogs}) {
   const { user, error, isLoading } = useUser();
   
   useEffect(() => {
     const authenticateUser = async () => {
+      console.log("user:", user);
       if (user) {
         try {
-          console.log(user);
           const response = await fetch("/api/authenticateUser", {
             method: "POST",
             headers: {
@@ -30,7 +30,6 @@ export default function Home({blogs, userId}) {
               name: user.name,
               nickname: user.nickname,
               picture: user.picture,
-              // ... other user data fields
             }),
           });
 
@@ -40,8 +39,6 @@ export default function Home({blogs, userId}) {
             sessionStorage.setItem("userId", data.userId);
 
             const userId = sessionStorage.getItem("userId");
-            console.log("userId", userId);
-
           } else {
             // Handle error scenarios
             console.error("Failed to authenticate user");

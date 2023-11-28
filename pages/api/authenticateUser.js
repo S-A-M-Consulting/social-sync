@@ -24,18 +24,15 @@ export default async function handler(req, res) {
       const newUser = await prisma.user.create({
         data: {
           auth0Id,
-          email: "albert913388672@gmail.com",
+          email: email,
           name,
           nickname,
           picture,
-          // ... other fields
         },
       });
-      userId = newUser.id;
+      userId = newUser.auth0Id;
       isNewUser = true;
     }
-    // console.log(req.session);
-    // req.session.userId = userId; // Store userId in the session
 
     res.status(200).json({ userId, isNewUser });
   } catch (error) {
