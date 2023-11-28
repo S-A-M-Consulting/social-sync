@@ -14,9 +14,8 @@ export default async function handler(req, res) {
 
     let userId;
     let isNewUser = false;
-    
     const existingUser = await prisma.user.findUnique({
-      where: { auth0Id },
+      where: { auth0Id: auth0Id },
     });
 
     if (existingUser) {
@@ -25,7 +24,7 @@ export default async function handler(req, res) {
       const newUser = await prisma.user.create({
         data: {
           auth0Id,
-          email,
+          email: "albert913388672@gmail.com",
           name,
           nickname,
           picture,
@@ -35,8 +34,8 @@ export default async function handler(req, res) {
       userId = newUser.id;
       isNewUser = true;
     }
-
-    req.session.userId = userId; // Store userId in the session
+    // console.log(req.session);
+    // req.session.userId = userId; // Store userId in the session
 
     res.status(200).json({ userId, isNewUser });
   } catch (error) {

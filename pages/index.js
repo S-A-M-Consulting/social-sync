@@ -7,13 +7,53 @@ import Calendar from 'react-calendar';
 import { useUser } from '@auth0/nextjs-auth0/client'
 import getUserIdFromSub from '@/utils/userIdFromSub'
 import { use, useEffect } from 'react';
-import { getSession } from '@auth0/nextjs-auth0';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home({blogs, userId}) {
   const { user, error, isLoading } = useUser();
+  
+  useEffect(() => {
+    const authenticateUser = async () => {
+      if (user) {
+        try {
+          console.log(user);
+          const response = await fetch("/api/authenticateUser", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              auth0Id: user.sub,
+              email: user.email,
+              name: user.name,
+              nickname: user.nickname,
+              picture: user.picture,
+              // ... other user data fields
+            }),
+          });
 
+          if (response.ok) {
+            const data = await response.json();
+            // Assuming you're using session storage for userId!!!
+            sessionStorage.setItem("userId", data.userId);
+
+            const userId = sessionStorage.getItem("userId");
+            console.log("userId", userId);
+
+          } else {
+            // Handle error scenarios
+            console.error("Failed to authenticate user");
+          }
+        } catch (error) {
+          console.error("Error while authenticating user:", error);
+        }
+      }
+    };
+
+    authenticateUser();
+  }, [user]);
   return (
     <>
       <Head>

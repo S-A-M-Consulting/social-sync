@@ -6,7 +6,8 @@ export default function ProfileClient() {
   const { user, error, isLoading } = useUser();
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
-  console.log(user);
+  const userId = sessionStorage.getItem("userId");
+  console.log("userId", userId);
   return (
     user && (
       <div>
