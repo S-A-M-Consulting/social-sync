@@ -72,7 +72,7 @@ function AvailabilityTable({ table, setCheckboxState}) {
 const handleSubmit = async (recurringSchedule, userId) => {
   const data = {recurringSchedule, userId};
   console.log(data);
-  const addAvailabilityToDataBase = await axios.post('/api/createRecurringTemplate', {data});
+  const addAvailabilityToDataBase = await axios.post('/api/recurring', {data});
   console.log(addAvailabilityToDataBase);
 }
 

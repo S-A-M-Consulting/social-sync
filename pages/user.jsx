@@ -8,6 +8,7 @@ export default function ProfileClient() {
   if (error) return <div>{error.message}</div>;
   const userId = sessionStorage.getItem("userId");
   console.log("userId", userId);
+  console.log(user.picture)
   return (
     user && (
       <div>
