@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import axios from 'axios';
 import { Typography, Slider, FormGroup, FormControlLabel, Checkbox, TableCell, Table, TableHead, TableRow, TableBody, Button} from '@mui/material';
 
@@ -68,10 +68,10 @@ function AvailabilityTable({ table, setCheckboxState}) {
 // onClick={() => handleSubmit(recurringSchedule)}
 // {monday: {morning: true, afternoon: true, evening: false, lateNight: false}, tuesday: {morning: true, afternoon: true, evening: false, lateNight: false}, wednesday: {morning: true, afternoon: true, evening: false, lateNight: false}, thursday: {morning: true, afternoon: true, evening: false, lateNight: false}, friday: {morning: true, afternoon: true, evening: false, lateNight: false}, saturday: {morning: true, afternoon: true, evening: false, lateNight: false}, sunday: {morning: true, afternoon: true, evening: false, lateNight: false}
 
-const handleSubmit = async (recurringSchedule) => {
-
-  //const addAvailabilityToDataBase = await axios.post('/api/createRecurringTemplate', {data: {recurringSchedule}})
-  console.log(recurringSchedule)
+const handleSubmit = async (recurringSchedule, userId = 3) => {
+  const data = {recurringSchedule, userId};
+  console.log(data);
+  const addAvailabilityToDataBase = await axios.post('/api/createRecurringTemplate', {data})
 }
 
 

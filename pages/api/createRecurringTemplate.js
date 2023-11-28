@@ -7,22 +7,24 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const availabilities = req.body;
-
-  console.log(availabilities)
+  const data = req.body.data;
+  const availabilities = data.recurringSchedule;
+  const userId = data.userId;
+  
+  console.log("HERE:", data)
   try {
     // Start a transaction to add all recurring templates
     const result = await prisma.$transaction(
       Object.entries(availabilities).map(([dayOfWeek, times]) => {
         return prisma.recurringTemplate.create({
           data: {
-            userId: req.body.userId,
+            userId: userId,
             dayOfWeek: dayOfWeek,
             morning: times.morning,
             afternoon: times.afternoon,
             evening: times.evening,
             lateNight: times.lateNight,
-          },
+          }
         });
       })
     );
