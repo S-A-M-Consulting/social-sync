@@ -105,7 +105,7 @@ export default async function handler(req, res) {
      */
     const { userId } = req.body;
     
-  generateAvailabilities(userI)
+  generateAvailabilities(3)
     .then(() => {
       res.status(200).json({ message: "Availabilities created" });
     })
