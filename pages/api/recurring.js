@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-
+import axios from "axios";
 
 const handlers = {
   GET: async (req, res) => {
@@ -18,6 +18,7 @@ const handlers = {
         return res.status(200).json(recurring);
       } 
 
+      
       const userWithRecurring = await prisma.user.findUnique({
         where: { id: Number(userId) },
         include: { recurring: true },
@@ -41,8 +42,13 @@ const handlers = {
     const data = req.body.data;
     const availabilities = data.recurringSchedule;
     const userId = data.userId;
-    // console.log(data.userId)
-    // console.log("HERE:", data)
+    const deleteResult = await prisma.recurringTemplate.deleteMany({
+      where: {
+        userId: {
+          equals: Number(userId)
+        }
+      }
+    });
     console.log("availabilities:", Object.entries(availabilities))
     try {
       // Start a transaction to add all recurring templates
@@ -62,6 +68,8 @@ const handlers = {
       );
 
       // If successful, send back the created data
+      const makeAvailbility = await axios.post('http://localhost:3000/api/availability', {userId: userId});
+      console.log("makeAvailbility:", makeAvailbility);
       res.status(200).json(result);
     } catch (error) {
       console.error('Failed to add recurring templates', error);
