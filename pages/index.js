@@ -5,11 +5,15 @@ import styles from '@/styles/Home.module.css'
 import { PrismaClient } from '@prisma/client'
 import Calendar from 'react-calendar';
 import { useUser } from '@auth0/nextjs-auth0/client'
+import getUserIdFromSub from '@/utils/userIdFromSub'
+import { use, useEffect } from 'react';
+import { getSession } from '@auth0/nextjs-auth0';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({blogs}) {
+export default function Home({blogs, userId}) {
   const { user, error, isLoading } = useUser();
+
   return (
     <>
       <Head>
@@ -46,7 +50,8 @@ export default function Home({blogs}) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
+  
   return {
     props: {
       blogs: []
