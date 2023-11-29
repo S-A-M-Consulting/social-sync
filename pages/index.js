@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.css';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { use, useEffect } from 'react';
+import Calendar from '@/components/calendar';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -58,6 +59,7 @@ export default function Home({blogs}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {!user ? (<a href="/api/auth/login">Login</a>) : (<a href="/api/auth/logout"> Logged in as {user.nickname} | Logout</a>)}
+      <Calendar />
     </>
   )
 }

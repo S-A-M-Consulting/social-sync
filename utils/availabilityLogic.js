@@ -18,16 +18,16 @@ const addDays = (date, days) => {
 const generateTimeslots = (template, date) => {
   const slots = [];
   if (template.morning) {
-    slots.push({ start: new Date(`${date}T10:00:00Z`), end: new Date(`${date}T12:00:00Z`) });
+    slots.push({ start: new Date(`${date}T18:00:00Z`), end: new Date(`${date}T20:00:00Z`) });
   }
   if (template.afternoon) {
-    slots.push({ start: new Date(`${date}T12:00:00Z`), end: new Date(`${date}T17:00:00Z`) });
+    slots.push({ start: new Date(`${date}T20:00:00Z`), end: new Date(`${date}T23:00:00Z`) });
   }
   if (template.evening) {
-    slots.push({ start: new Date(`${date}T17:00:00Z`), end: new Date(`${date}T20:00:00Z`) });
+    slots.push({ start: new Date(`${date}T23:00:00Z`), end: new Date(`${date}T04:00:00Z`) });
   }
   if (template.lateNight) {
-    slots.push({ start: new Date(`${date}T20:00:00Z`), end: new Date(`${date}T22:00:00Z`) });
+    slots.push({ start: new Date(`${date}T04:00:00Z`), end: new Date(`${date}T06:00:00Z`) });
   }
   return slots;
 };

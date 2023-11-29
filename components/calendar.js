@@ -11,40 +11,69 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 
-export default function Calendar() {
+import axios from "axios";
+
+export default function Calendar(props) {
   // for seeding (eliminates draggability)
-  const hardcodedEvents = [
-    {
-      title: "Team Meeting",
-      start: "2023-11-25T09:00:00.00Z",
-      end: "2023-11-25T11:00:00.00Z",
-    },
-    {
-      title: "Project Review",
-      start: "2023-11-26T11:00:00",
-      end: "2023-11-26T12:30:00",
-    },
-    {
-      title: "Client Call",
-      start: "2023-11-27T14:00:00",
-      end: "2023-11-27T15:00:00",
-    },
-    {
-      title: "Workshop",
-      start: "2023-11-30T11:00:00",
-      end: "2023-11-30T12:00:00",
-    },
-    {
-      title: "Halloween Party",
-      start: "2023-11-31T18:00:00",
-      end: "2023-11-31T23:00:00",
-    },
-    {
-      title: "December Kick-off",
-      start: "2023-12-01T09:00:00",
-      end: "2023-12-01T10:00:00",
-    },
-  ];
+  const [availabilities, setAvailabilities] = useState([]);
+
+  useEffect(() => {
+    const userId = sessionStorage.getItem("userId");
+
+    // Example API call passing the userId to the server
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/availability/?userId=${userId}`);
+        
+        // Process the fetched data as needed
+        console.log("data", response.data);
+        setAvailabilities(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error scenarios
+      }
+    };
+
+    if (userId) {
+      fetchData(); // Make the API call if userId is available in sessionStorage
+    }
+  }, []);
+  // for seeding (eliminates draggability)
+  // const hardcodedEvents = [
+  //   {
+  //     title: "Team Meeting",
+  //     start: "2023-11-25T09:00:00.00Z",
+  //     end: "2023-11-25T11:00:00.00Z",
+  //   },
+  //   {
+  //     title: "Project Review",
+  //     start: "2023-11-26T11:00:00",
+  //     end: "2023-11-26T12:30:00",
+  //   },
+  //   {
+  //     title: "Client Call",
+  //     start: "2023-11-27T14:00:00",
+  //     end: "2023-11-27T15:00:00",
+  //   },
+  //   {
+  //     title: "Workshop",
+  //     start: "2023-11-30T11:00:00",
+  //     end: "2023-11-30T12:00:00",
+  //   },
+  //   {
+  //     title: "Halloween Party",
+  //     start: "2023-11-31T18:00:00",
+  //     end: "2023-11-31T23:00:00",
+  //   },
+  //   {
+  //     title: "December Kick-off",
+  //     start: "2023-12-01T09:00:00",
+  //     end: "2023-12-01T10:00:00",
+  //   },
+  // ];
+  console.log("props", props);
+  const hardcodedEvents = props.availabilities;
+  
 
   function handleDateSelect(selectInfo) {
     const today = new Date();
@@ -188,7 +217,7 @@ export default function Calendar() {
                 right: "resourceTimelineWook, dayGridMonth,timeGridWeek",
               }}
               // hardcoded!!!! change for production
-              events={hardcodedEvents}
+              events={availabilities}
               nowIndicator={true}
               editable={true}
               droppable={true}
@@ -384,3 +413,4 @@ export default function Calendar() {
     </>
   );
 }
+

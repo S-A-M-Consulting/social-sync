@@ -30,7 +30,7 @@ const handlers = {
       }
 
       console.log(userWithAvailability);
-      res.status(200).json(userWithAvailability);
+      res.status(200).json(userWithAvailability.availabilities);
     } catch (error) {
       console.error('Error while getting templates:', error);
       res.status(500).json({ error: 'Failed to get templates' });
