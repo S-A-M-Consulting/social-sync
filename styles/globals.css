@@ -50,3 +50,8 @@ input {
 .fc-v-event {
   @apply bg-violet-500 border border-violet-600;
 }
+
+.fc-past {
+  @apply bg-gray-100; /* Tailwind utility class */
+  /* Add more Tailwind-like styles if needed */
+}

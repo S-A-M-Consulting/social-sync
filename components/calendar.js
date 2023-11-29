@@ -12,6 +12,60 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 
 export default function Calendar() {
+  // for seeding (eliminates draggability)
+  const hardcodedEvents = [
+    {
+      title: "Team Meeting",
+      start: "2023-11-25T09:00:00.00Z",
+      end: "2023-11-25T11:00:00.00Z",
+    },
+    {
+      title: "Project Review",
+      start: "2023-11-26T11:00:00",
+      end: "2023-11-26T12:30:00",
+    },
+    {
+      title: "Client Call",
+      start: "2023-11-27T14:00:00",
+      end: "2023-11-27T15:00:00",
+    },
+    {
+      title: "Workshop",
+      start: "2023-11-30T11:00:00",
+      end: "2023-11-30T12:00:00",
+    },
+    {
+      title: "Halloween Party",
+      start: "2023-11-31T18:00:00",
+      end: "2023-11-31T23:00:00",
+    },
+    {
+      title: "December Kick-off",
+      start: "2023-12-01T09:00:00",
+      end: "2023-12-01T10:00:00",
+    },
+  ];
+
+  function handleDateSelect(selectInfo) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (selectInfo.start >= today) {
+      // Allow the selection
+      setNewEvent({
+        title: "",
+        start: selectInfo.start,
+        end: selectInfo.end,
+        allDay: selectInfo.allDay,
+        id: new Date().getTime(),
+      });
+      setShowModal(true);
+    } else {
+      // Prevent adding events in the past
+      console.log("Can't add events in the past!");
+    }
+  }
+
   const [events, setEvents] = useState([
     { title: "Morning", id: "1" },
     { title: "Afternoon", id: "2" },
@@ -113,6 +167,13 @@ export default function Calendar() {
 
   return (
     <>
+      {/* Inline style for greying out past dates (not working) */}
+      <style jsx global>{`
+        .fc-past {
+          background-color: #f3f4f6;
+        }
+      `}</style>
+
       <nav className="flex justify-between mb-12 border-b border-violet-100 p-4">
         <h1 className="font-bold text-2xl text-gray-700">Calendar</h1>
       </nav>
@@ -126,11 +187,13 @@ export default function Calendar() {
                 center: "title",
                 right: "resourceTimelineWook, dayGridMonth,timeGridWeek",
               }}
-              events={allEvents}
+              // hardcoded!!!! change for production
+              events={hardcodedEvents}
               nowIndicator={true}
               editable={true}
               droppable={true}
               selectable={true}
+              select={handleDateSelect}
               selectMirror={true}
               dateClick={handleDateClick}
               drop={(data) => addEvent(data)}
